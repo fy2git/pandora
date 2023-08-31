@@ -16,7 +16,10 @@ __public_key = b'-----BEGIN PUBLIC KEY-----\n' \
 
 
 def check_access_token(access_token, api=False):
-    if api and access_token.startswith('sk-'):
+    if access_token.startswith('fk-'):
+        return True
+
+    if api and (access_token.startswith('sk-') or access_token.startswith('pk-')):
         return True
 
     payload = (decode(access_token, key=__public_key, algorithms='RS256', audience=[
@@ -30,6 +33,9 @@ def check_access_token(access_token, api=False):
     scope = payload['scope']
     if 'model.read' not in scope or 'model.request' not in scope:
         raise Exception('invalid scope')
+
+    if 'https://api.openai.com/auth' not in payload or 'https://api.openai.com/profile' not in payload:
+        raise Exception('belonging to an unregistered user.')
 
     return payload
 

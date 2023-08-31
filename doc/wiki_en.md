@@ -40,12 +40,16 @@ Pandora, talking with ChatGPT in command lines, and with more surprises.
 
     ```shell
     pip install 'pandora-chatgpt[api]'
+    // OR
+    pip install pandora-chatgpt[api]
     pandora
     ```
   * `cloud` mode:
 
     ```shell
     pip install 'pandora-chatgpt[cloud]'
+    // OR
+    pip install pandora-chatgpt[cloud]
     pandora-cloud
     ```
 
@@ -60,6 +64,8 @@ Pandora, talking with ChatGPT in command lines, and with more surprises.
 
     ```shell
     pip install '.[api]'
+    // OR
+    pip install .[api]
     pandora
     ```
   
@@ -67,6 +73,8 @@ Pandora, talking with ChatGPT in command lines, and with more surprises.
 
     ```shell
     pip install '.[cloud]'
+    // OR
+    pip install .[cloud]
     pandora-cloud
     ```
 
@@ -83,6 +91,8 @@ Pandora, talking with ChatGPT in command lines, and with more surprises.
   docker build -t pandora .
   docker run -it --rm pandora
   ```
+  
+* Serverless deploy：[pandora-cloud-serverless](https://github.com/pengzhile/pandora-cloud-serverless)
 
 * login with your credentials
 
@@ -95,9 +105,9 @@ Pandora, talking with ChatGPT in command lines, and with more surprises.
 * `-t` or `--token_file` for indicating the file that stores `Access Token`. You will login with access token if this option is in use.
 * `-s` or `--server` starts the HTTP server, by which you could open a web page and interact with it in a fancy UI. the value should be`ip:port`.
 * `-a` or `--api` use `gpt-3.5-turbo` API in backend. **NOTICE: you will be charged if this option is in use.** 
+* `-l` or `--local` login using the local environment. **You may need a suitable proxy IP to avoid account restrictions!**
 * `--tokens_file` indicating a file storing multiple `Access Token`s. The file content should be like`{"key": "token"}`.
 * `--threads` specify the number of server workers, default is `8`, and for cloud mode, it is `4`.
-* `--sentry` sending error messages to author for improving Pandora. **Sensitive information won't be leaked.**
 * `-v` or `--verbose` for verbose debugging messages.
 
 ## Docker
@@ -109,17 +119,18 @@ These docker environment variables will override start parameters.
 * `PANDORA_PROXY` =`protocol://user:pass@ip:port`.
 * `PANDORA_SERVER` =`ip:port`.
 * `PANDORA_API`  for using `gpt-3.5-turbo` API. **NOTICE: you will be charged if this option is in use.** 
-* `PANDORA_SENTRY` for sending error messages to author to improve Pandora. **Sensitive information won't be leaked.**
+* `PANDORA_LOGIN_LOCAL` login using the local environment. **You may need a suitable proxy IP to avoid account restrictions!**
 * `PANDORA_VERBOSE` for verbose debugging messages.
+* `PANDORA_THREADS` specify the number of server workers, default is `8`, and for cloud mode, it is `4`.
 
 ## Access Token things
 
 * no need for proxy if login with `Access Token`.
 * you could obtain your access token safely with [this service](https://ai.fakeopen.com/auth).
-* `Access Token` has a expiration time as `1 month`, you could save it and keep using within this period.
+* `Access Token` has a expiration time as `14 days`, you could save it and keep using within this period.
 * leaking your `Access Token` will lead to loss of your account.
 
-## HTTP RESTful API
+## HTTP RESTFUL API
 
 * if you start Pandora with `-s`/`--server`/`PANDORA_SERVER`, you could access a web UI with `http://ip:port`.
 * you could switch access token by passing a different one with `http://ip:port/?token=xxx`.
